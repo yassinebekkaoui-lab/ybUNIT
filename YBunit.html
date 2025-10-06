@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>YASSINE BEKKAOUI</title>
+  <style>
+
+    body, h1, h2, h3, h4, h5, h6, p, span, button, .label, .btn, .tab-btn, .pane, .trigger, .dropdown, .lead {
+  color: #ffffff !important;
+}
+    :root{
+      --bg:#050507;
+      --panel:#0b0c10cc; /* semi-opaque panel */
+      --neon-blue:#00b0ff;
+      --deep-blue:#0c3c70;
+      --glass-border:rgba(255,255,255,0.06);
+      --accent:linear-gradient(135deg,var(--neon-blue),#7adcff 60%);
+      --radius:18px;
+      --glass-blur:10px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(0,176,255,0.06), transparent 8%),
+                  radial-gradient(900px 500px at 90% 90%, rgba(122,220,255,0.03), transparent 8%),
+                  var(--bg);
+      color:#dbeafe;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:36px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      gap:24px;
+      min-height:100vh;
+    }
+
+    /* Card */
+    .shell{
+      width:1100px;
+      max-width:calc(100% - 48px);
+      border-radius:22px;
+      padding:20px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      box-shadow: 0 8px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+      backdrop-filter: blur(8px) saturate(120%);
+      border:1px solid var(--glass-border);
+      display:grid;
+      grid-template-columns: 320px 1fr;
+      gap:20px;
+    }
+
+      /* Overlay de bienvenida sin texto */
+  .welcome-overlay {
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: var(--bg);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index: 99999;
+    overflow:hidden;
+  }
+
+  .welcome-line {
+    position:absolute;
+    width: 200%;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(0,176,255,0), rgba(0,176,255,0.8), rgba(0,176,255,0));
+    transform: rotate(45deg);
+    animation: lineMove 1s ease forwards;
+  }
+
+  .welcome-line:nth-child(2) {
+    animation-delay: 0.2s;
+    transform: rotate(-45deg);
+  }
+
+  .welcome-line:nth-child(3) {
+    animation-delay: 0.4s;
+    transform: rotate(0deg);
+  }
+
+  @keyframes lineMove {
+    0% { transform: translateY(-100%) scaleX(0.5); opacity:0; }
+    50% { opacity:1; }
+    100% { transform: translateY(100%) scaleX(1); opacity:0; }
+  }
+
+  /* Ocultar overlay tras animación */
+  .welcome-overlay.hide {
+    opacity:0;
+    pointer-events:none;
+    transition: opacity 0.5s ease;
+  }
+
+
+
+
+    /* Sidebar / Menu */
+    .menu-card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.015));
+      border-radius:16px;
+      padding:18px;
+      min-height:420px;
+      border:1px solid rgba(255,255,255,0.03);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .brand{
+      display:flex;align-items:center;gap:12px;margin-bottom:14px
+    }
+    .logo-blob{
+      width:56px;height:56px;border-radius:14px;background:var(--accent);display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,176,255,0.12), 0 1px 0 rgba(255,255,255,0.06) inset;
+      transform:rotate(-8deg);
+    }
+    .logo-blob svg{width:36px;height:36px;filter:drop-shadow(0 6px 18px rgba(0,176,255,0.12));}
+    h1{font-size:18px;margin:0}
+    p.lead{margin:0;font-size:13px;color:rgba(255,255,255,0.65)}
+
+    /* Dropdown menu */
+    .nav{
+      margin-top:18px;
+      display:flex;flex-direction:column;gap:10px
+    }
+
+    .nav .menu-item{
+      position:relative;
+    }
+
+   /* Scroll interno estilo iPhone en los submenús */
+nav ul li ul {
+  max-height: 200px;                 /* altura máxima visible del desplegable */
+  overflow-y: auto;                  /* activa scroll interno */
+  -webkit-overflow-scrolling: touch; /* suavidad iOS */
+  border: 1px solid rgba(0,170,255,0.2);
+  border-radius: 10px;
+}
+
+/* Webkit (Chrome, Safari, Edge) */
+nav ul li ul::-webkit-scrollbar {
+  width: 6px;
+}
+
+nav ul li ul::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+nav ul li ul::-webkit-scrollbar-thumb {
+  background: #00aaff;
+  border-radius: 10px;
+  transition: background 0.3s;
+}
+
+nav ul li ul::-webkit-scrollbar-thumb:hover {
+  background: #66ccff;
+}
+
+/* === Cursor personalizado estilo iPhone === */
+body {
+  cursor: none; /* oculta el cursor nativo */
+}
+
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--neon-blue);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  box-shadow: 0 0 15px rgba(0,176,255,0.6);
+}
+
+.cursor-trail {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--neon-blue);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  opacity: 0.4;
+  z-index: 9998;
+  filter: blur(2px);
+  animation: fadeTrail 0.6s forwards;
+}
+
+@keyframes fadeTrail {
+  from { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
+  to { opacity: 0; transform: translate(-50%, -50%) scale(0.4); }
+}
+
+
+/* Firefox */
+nav ul li ul {
+  scrollbar-width: thin;
+  scrollbar-color: #00aaff transparent;
+}
+
+ .pane {
+    display: none;
+    padding: 18px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.05));
+    min-height: 260px;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .pane.active {
+    display: block;
+    opacity: 1;
+    transform: scale(1);
+  }
+
+nav .logo,
+nav ul li,
+nav ul li ul li a {
+  animation-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+    .trigger{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-radius:12px;cursor:pointer;
+      background:linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.007));
+      border:1px solid rgba(255,255,255,0.02);
+      transition:transform .18s ease, box-shadow .18s ease;
+      outline:none;
+    }
+    .trigger:focus{box-shadow:0 6px 22px rgba(0, 174, 255, 0.486);transform:translateY(-2px)}
+    .trigger .title{display:flex;gap:12px;align-items:center}
+    .avatar-dot{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#001427 0%,var(--neon-blue) 100%);display:grid;place-items:center}
+    .trigger .label{font-weight:600}
+    .trigger .chev{opacity:.85;transform:translateY(1px)}
+
+    /* dropdown content */
+    .dropdown{
+      position:absolute;left:0;right:0;top:56px;z-index:30;padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(2,6,23,0.84), rgba(4,8,20,0.78));
+      box-shadow: 0 20px 50px rgba(2,6,23,0.7);
+      border:1px solid rgba(255,255,255,0.03);
+      transform-origin:top center;
+      opacity:0;pointer-events:none;transform:translateY(-10px) scale(.98);
+      transition:all .22s cubic-bezier(.2,.9,.2,1);
+    }
+    .dropdown.open{opacity:1;pointer-events:auto;transform:translateY(6px) scale(1)}
+
+    .dropdown .grid{display:grid;grid-template-columns:1fr;gap:8px}
+    .dropdown .btn{
+      display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.02);
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+      transition:background .12s, transform .12s;
+    }
+    .dropdown .btn:focus,.dropdown .btn:hover{transform:translateY(-3px);background:linear-gradient(180deg, rgba(0,176,255,0.04), rgba(122,220,255,0.01));}
+
+    /* Tabs / content area */
+    .content{
+      padding:18px;border-radius:14px;background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(255,255,255,0.01));
+      min-height:420px;border:1px solid rgba(255,255,255,0.02);
+      display:flex;flex-direction:column;gap:14px;overflow:hidden
+    }
+
+    .tab-header{display:flex;gap:8px;align-items:center}
+    .tab-btn{
+      padding:10px 14px;border-radius:12px;cursor:pointer;border:1px solid rgba(255,255,255,0.02);
+      background:transparent;font-weight:600;backdrop-filter: blur(6px);
+    }
+    .tab-btn.active{background:linear-gradient(90deg, rgba(0,176,255,0.08), rgba(122,220,255,0.02));box-shadow:0 8px 30px rgba(0,176,255,0.06)}
+
+    .panes{margin-top:8px;flex:1;overflow:auto;padding:6px}
+    .pane{display:none;padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.05));min-height:260px}
+    .pane.active{display:block}
+
+    /* futuristic decorations */
+    .neon-line{
+      position:absolute;right:-120px;bottom:-60px;width:420px;height:420px;border-radius:60%;background:conic-gradient(from 120deg at 50% 50%, rgba(0,176,255,0.06), transparent 40%);
+      filter:blur(36px);transform:rotate(18deg);pointer-events:none
+    }
+
+    /* responsive */
+    @media (max-width:880px){
+      .shell{grid-template-columns:1fr;}
+      .neon-line{display:none}
+    }
+
+    /* small accessibility helpers */
+    .sr-only{position:absolute;left:-9999px}
+  </style>
+</head>
+<body>
+  <div class="shell" role="application">
+    <aside class="menu-card" aria-label="Navegación principal">
+      <div class="brand">
+        <div class="logo-blob" aria-hidden="true">
+          <!-- Gemini-like glyph -->
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M6 7.5C6 5.57 7.57 4 9.5 4h5c1.93 0 3.5 1.57 3.5 3.5V16.5C18 18.43 16.43 20 14.5 20h-5C7.57 20 6 18.43 6 16.5V7.5Z" stroke="white" stroke-opacity="0.95" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8 9h8" stroke="#001627" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <h1>Una pieza de mi</h1>
+          <p class="lead">Tomate tu tiempo para conocerme</p>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Menú principal">
+        <div class="menu-item">
+          <button class="trigger" aria-expanded="false" aria-controls="dd-1">
+            <div class="title">
+              <span class="avatar-dot" aria-hidden="true">
+                <!-- small chip icon -->
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><circle cx="12" cy="12" r="3" fill="rgba(255,255,255,0.95)"/></svg>
+              </span>
+              <span class="label">Yo</span>
+            </div>
+            <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#bfe9ff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+
+          <div id="dd-1" class="dropdown" role="menu" aria-hidden="true">
+            <div class="grid">
+              <button class="btn" role="menuitem" data-target="tab-overview">Visión general</button>
+              <button class="btn" role="menuitem" data-target="tab-models">Modelos</button>
+              <button class="btn" role="menuitem" data-target="tab-infer">Inferencia</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-item">
+          <button class="trigger" aria-expanded="false" aria-controls="dd-2">
+            <div class="title">
+              <span class="avatar-dot" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><rect x="4" y="4" width="16" height="16" rx="4" fill="#001427" stroke="white" stroke-opacity="0.06"/></svg>
+              </span>
+              <span class="label">Proyectos</span>
+            </div>
+            <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#bfe9ff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+
+          <div id="dd-2" class="dropdown" role="menu" aria-hidden="true">
+            <div class="grid">
+              <button class="btn" role="menuitem" data-target="tab-projects-1">Proyecto Alpha</button>
+              <button class="btn" role="menuitem" data-target="tab-projects-2">Proyecto Beta</button>
+              <button class="btn" role="menuitem" data-target="tab-projects-3">Proyecto Gamma</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-item">
+          <button class="trigger" aria-expanded="false" aria-controls="dd-3">
+            <div class="title">
+              <span class="avatar-dot" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M12 4v16M4 12h16" stroke="#bfe9ff" stroke-width="1.2" stroke-linecap="round"/></svg>
+              </span>
+              <span class="label">Cuenta</span>
+            </div>
+            <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#bfe9ff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+
+          <div id="dd-3" class="dropdown" role="menu" aria-hidden="true">
+            <div class="grid">
+              <button class="btn" role="menuitem" data-target="tab-profile">Perfil</button>
+              <button class="btn" role="menuitem" data-target="tab-billing">Facturación</button>
+            </div>
+          </div>
+        </div>
+
+      </nav>
+
+      <div class="neon-line" aria-hidden="true"></div>
+    </aside>
+
+ <div class="welcome-overlay" id="welcomeOverlay">
+  <div class="welcome-line"></div>
+</div>
+
+      <div class="panes">
+        <section id="tab-overview" class="pane active" role="tabpanel">
+          <h2>Visión general</h2>
+          <p>Bienvenido al panel con estética Gemini / iPhone: sombras suaves, brillos azules y una interacción táctil agradable. Usa el menú para navegar entre pestañas.</p>
+          <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+            <div style="min-width:160px;padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.05));border:1px solid rgba(255,255,255,0.02)">
+              <strong>Estado:</strong>
+              <div>Todo estable · Latencia baja</div>
+            </div>
+            <div style="min-width:160px;padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.05));border:1px solid rgba(255,255,255,0.02)">
+              <strong>Modelo activo:</strong>
+              <div>Gemini-Neo (demo)</div>
+            </div>
+          </div>
+        </section>
+
+        <section id="tab-models" class="pane" role="tabpanel">
+          <h2>Modelos</h2>
+          <p>Lista de modelos y accesos rápidos.</p>
+        </section>
+
+        <section id="tab-projects-1" class="pane" role="tabpanel">
+          <h2>Proyecto Alpha</h2>
+          <p>Detalles del proyecto Alpha: prototipado UI, integraciones y roadmap.</p>
+        </section>
+
+        <section id="tab-projects-2" class="pane" role="tabpanel">
+          <h2>Proyecto Beta</h2>
+          <p>Detalles del proyecto Beta.</p>
+        </section>
+
+        <section id="tab-projects-3" class="pane" role="tabpanel">
+          <h2>Proyecto Gamma</h2>
+         
+  <h2>Proyecto Gamma – Brazo Robótico</h2>
+  <p>Este proyecto consiste en el diseño y construcción de un brazo robótico automatizado, capaz de realizar tareas de precisión en entornos industriales y educativos. El brazo cuenta con los siguientes elementos:</p>
+  <ul>
+    <li><strong>Estructura mecánica:</strong> Fabricada en aluminio y acero ligero, con articulaciones servo-motor controladas electrónicamente.</li>
+    <li><strong>Grados de libertad:</strong> 6 ejes para movimientos complejos y manipulaciones tridimensionales precisas.</li>
+    <li><strong>Sensores:</strong> Incluye sensores de posición, fuerza y proximidad, permitiendo feedback en tiempo real.</li>
+    <li><strong>Control:</strong> Microcontrolador integrado con conexión USB y Bluetooth para programación y control remoto.</li>
+    <li><strong>Software:</strong> Compatible con plataformas de simulación y control como ROS (Robot Operating System) y Python API.</li>
+    <li><strong>Tareas:</strong> Puede realizar ensamble de piezas, movimientos repetitivos, agarre de objetos delicados y demostraciones educativas.</li>
+    <li><strong>Seguridad:</strong> Implementa límites de movimiento y apagado de emergencia para protección del operador y del equipo.</li>
+  </ul>
+  <p>El proyecto también contempla documentación técnica detallada, esquemas de cableado, diagramas CAD, manuales de uso y mantenimiento, y un módulo de programación para que los usuarios puedan crear sus propias rutinas y secuencias de movimientos. Es un ejemplo perfecto de cómo integrar mecánica, electrónica y software en un único sistema funcional y educativo.</p>
+
+
+        </section>
+
+        <section id="tab-infer" class="pane" role="tabpanel">
+          <h2>Inferencia</h2>
+          <p>Panel de inferencia y logs.</p>
+        </section>
+
+
+        <section id="tab-profile" class="pane" role="tabpanel">
+          <h2>Perfil</h2>
+          <p>Información de la cuenta y personalización.</p>
+        </section>
+
+        <section id="tab-billing" class="pane" role="tabpanel">
+          <h2>Facturación</h2>
+          <p>Datos de pago y facturas.</p>
+        </section>
+
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    // Toggle dropdowns
+    document.querySelectorAll('.menu-item').forEach(item => {
+      const btn = item.querySelector('.trigger');
+      const dd = item.querySelector('.dropdown');
+      btn.addEventListener('click', e => {
+        const open = dd.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        dd.setAttribute('aria-hidden', open ? 'false' : 'true');
+      });
+
+      // close when clicking outside
+      document.addEventListener('click', ev => {
+        if (!item.contains(ev.target)){
+          dd.classList.remove('open');
+          btn.setAttribute('aria-expanded','false');
+          dd.setAttribute('aria-hidden','true');
+        }
+      });
+    });
+
+    // Tab navigation logic
+    function activateTab(id){
+      document.querySelectorAll('.tab-btn').forEach(b=>{
+        b.classList.toggle('active', b.dataset.tab===id);
+        b.setAttribute('aria-selected', b.dataset.tab===id ? 'true':'false');
+      });
+      document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('active', p.id===id));
+      // scroll to top of content area for clarity
+      document.querySelector('.panes').scrollTop = 0;
+    }
+
+    document.querySelectorAll('.tab-btn').forEach(b=>{
+      b.addEventListener('click', ()=>activateTab(b.dataset.tab));
+    });
+
+    // Buttons inside dropdowns target tabs
+    document.querySelectorAll('.dropdown .btn').forEach(b=>{
+      b.addEventListener('click', ()=>{
+        const t = b.dataset.target;
+        if (t) activateTab(t);
+        // close all dropdowns
+        document.querySelectorAll('.dropdown').forEach(dd=>dd.classList.remove('open'));
+        document.querySelectorAll('.trigger').forEach(tr=>tr.setAttribute('aria-expanded','false'));
+      });
+    });
+
+    // keyboard-friendly: ESC to close any open dropdown
+    document.addEventListener('keydown', e=>{
+      if (e.key === 'Escape'){
+        document.querySelectorAll('.dropdown').forEach(dd=>dd.classList.remove('open'));
+        document.querySelectorAll('.trigger').forEach(tr=>tr.setAttribute('aria-expanded','false'));
+      }
+    });
+
+    // small touch: detect reduced motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      document.querySelectorAll('*').forEach(n=>n.style.transitionDuration='0s');
+    }
+
+    // === Cursor iPhone-like con rastro ===
+const cursorDot = document.createElement("div");
+cursorDot.classList.add("cursor-dot");
+document.body.appendChild(cursorDot);
+
+document.addEventListener("mousemove", e => {
+  // mueve el punto principal
+  cursorDot.style.left = e.clientX + "px";
+  cursorDot.style.top = e.clientY + "px";
+
+  // crea un punto de rastro
+  const trail = document.createElement("div");
+  trail.classList.add("cursor-trail");
+  trail.style.left = e.clientX + "px";
+  trail.style.top = e.clientY + "px";
+  document.body.appendChild(trail);
+
+  // elimina el rastro tras la animación
+  setTimeout(() => trail.remove(), 600);
+});
+
+function activateTab(id){
+    const currentActive = document.querySelector('.pane.active');
+    if(currentActive && currentActive.id !== id){
+      // Cierre de la pestaña actual
+      currentActive.style.opacity = 0;
+      currentActive.style.transform = 'scale(0.95)';
+      setTimeout(() => {
+        currentActive.classList.remove('active');
+
+        // Apertura de la nueva pestaña
+        const newPane = document.getElementById(id);
+        newPane.classList.add('active');
+        requestAnimationFrame(() => {
+          newPane.style.opacity = 1;
+          newPane.style.transform = 'scale(1)';
+        });
+      }, 200); // tiempo de animación de cierre
+    } else if (!currentActive){
+      // Si no hay ninguna activa
+      const newPane = document.getElementById(id);
+      newPane.classList.add('active');
+      requestAnimationFrame(() => {
+        newPane.style.opacity = 1;
+        newPane.style.transform = 'scale(1)';
+      });
+    }
+    document.querySelector('.panes').scrollTop = 0;
+  }
+
+  // Botones dentro de los dropdowns
+  document.querySelectorAll('.dropdown .btn').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const t = b.dataset.target;
+      if (t) activateTab(t);
+      document.querySelectorAll('.dropdown').forEach(dd=>dd.classList.remove('open'));
+      document.querySelectorAll('.trigger').forEach(tr=>tr.setAttribute('aria-expanded','false'));
+    });
+  });
+
+
+   // Ocultar overlay tras 1.5s
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('welcomeOverlay').classList.add('hide');
+    }, 1500);
+  });
+
+  </script>
+</body>
+</html>
